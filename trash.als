@@ -23,6 +23,12 @@ pred restore [f : File] {
   File' = File       // frame condition on File
 }
 
+pred deleteFromTrash [f: File] {
+  f in Trash  // Only delete files in trash
+  Trash' = Trash - f  // Updated Trash is equal to the original Trash minus the files in trash
+  File' = File - f  // Updated File no longer includes the files that were in trash
+}
+
 fact trans {
   always (empty or (some f : File | delete[f] or restore[f]))
 }
